@@ -4,7 +4,7 @@ import { Button } from "./../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 
-export const Register = () => {
+export const Register =  () => {
     const [nama, setNama]=useState('');
     const [nikk, setNikk]=useState('');
     const [alamatKtp, setAlamatKtp]=useState('');
@@ -17,7 +17,10 @@ export const Register = () => {
     const [msg,setmsg]= useState('');
     const navigate =useNavigate();
 
-    Axios.post('http://localhost:5000/auth/register',{
+    
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      Axios.post('http://localhost:5000/auth/register',{
                 nama : nama,
                 nikk : nikk,
                 alamatKtp: alamatKtp,
@@ -27,11 +30,18 @@ export const Register = () => {
                 email: email,
                 password: password,
                 confirmPassword: confirmPassword,
-}).then((response)=> { console.log(response);
-}).catch((error)=> { console.warn('coba lagi')}) ;
-
-
-
+     }, {
+         headers: {
+           'Content-Type': 'application/json'  } 
+       })
+     .then((res) => {
+       console.log("server response:",res);
+     })
+     .catch((err) =>{
+     console.log("Server responded with error", err);
+     })
+     }
+   
 
 return (
     <>
@@ -46,7 +56,7 @@ return (
         </div>
         <div className="m-auto">
           <h1 className="text-4xl pb-5 font-bold text-[#29b2ff] text-center">Register</h1>
-          <form action="/warga/all" method="post" className="grid grid-rows-3 gap-4 w-80 h-90">
+          <form onSubmit={handleSubmit} action="/warga/all" method="post" className="grid grid-rows-3 gap-4 w-80 h-90">
             <input type="text" name="name" className="border-solid border-2 radius p-2 rounded-md" placeholder="Username" value={nama} onChange={(e) => {setNama(e.target.value);}}/>
             <input type="text" name="name" className="border-solid border-2 radius p-2 rounded-md" placeholder="nomor induk kartu keluarga" value={nikk} onChange={(e) => { setNikk(e.target.value);}}/>
             <input type="text" name="name" className="border-solid border-2 radius p-2 rounded-md" placeholder="alamat KTP" value={alamatKtp} onChange={(e) => {setAlamatKtp(e.target.value);}}/>
