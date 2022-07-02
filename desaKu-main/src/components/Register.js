@@ -36,12 +36,13 @@ export const Register =  () => {
        })
      .then((res) => {
        console.log("server response:",res);
+       navigate('/')
      })
      .catch((err) =>{
      console.log("Server responded with error", err);
      })
      }
-   
+    
 
 return (
     <>
